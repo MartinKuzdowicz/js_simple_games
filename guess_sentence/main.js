@@ -3,7 +3,6 @@
 
 var lettersUl = document.getElementById('letters');
 
-
 var sentenceUl = document.getElementById('sentence');
 
 var LETTERS_ARR = ['a','ą','b','c','ć','d','e','ę','f','g','h','i','j','k','l','ł','m','n','ń','o','ó','p','q','r','s','ś','t','u','v','w','x','y','z','ź','ż'];
@@ -85,12 +84,7 @@ function init(){
 		 liNode.setAttribute('id', LETTERS_ARR[i]);
 		 liNode.innerHTML = LETTERS_ARR[i];
 
-		 	liNode.addEventListener("click", function(e){
-
-				 	var letter = (e.target.id).toUpperCase();
-				 	checkPlayerMove(letter);
-
-		 		});
+		 	liNode.addEventListener("click", checkLetter);
 
 		 lettersUl.appendChild(liNode);
 
@@ -101,12 +95,18 @@ function init(){
 }
 
 
-function checkPlayerMove(letter) {
+function checkLetter(e) {
+
+
+	var letter = (e.target.id).toUpperCase();
+	console.log(letter + " click");
+
 
 	if(actualSentence.indexOf(letter) > -1) {
 
-
 		setGuesseddLetters(letter);
+
+		e.target.removeEventListener("click", checkLetter);
 
 	} else {
 
@@ -136,7 +136,7 @@ function setGuesseddLetters (letter) {
 }
 
 
-// EVENTS LISTENERS
+// EVENTS LISTENERS -------------------------------
 
 
 
