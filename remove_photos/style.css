@@ -1,0 +1,23 @@
+body {
+  background: white;
+}
+
+ul {
+  margin: 0 auto;
+  margin-top:50px;
+  padding: 0;
+  width: 950px;
+}
+
+ul li {
+  list-style: none;
+  display: inline-block;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
+img[src="images/kosmita.png"] {
+	width: 100px;
+	height: 100px;
+  background-color: silver;
+}
