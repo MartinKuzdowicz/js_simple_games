@@ -17,6 +17,8 @@ var numberOfGuessedLetters = 0;
 
 var actualSentence;
 
+var gallow = document.getElementById('gallow');
+
 
 // MAIN ----------------------------------------
 
@@ -29,8 +31,10 @@ setActualPassword();
 // FUNCTIONS ------------------------------------------
 
 function checkIfGameOVer() {
+
 	if(howManyCanYouTry == 0) {
 
+		disableLettersBtns();
 		alert('game over! You lose');
 
 
@@ -38,9 +42,26 @@ function checkIfGameOVer() {
 
 	if(numberOfGuessedLetters == actualSentence.length) {
 
-		alert('game over! You winn');
+		disableLettersBtns();
+		alert('You winn');
 
 	}
+
+}
+
+
+function disableLettersBtns() {
+
+	for(var i = 0; i < LETTERS_ARR.length; i++) {
+
+		var letterBtn = document.getElementById(LETTERS_ARR[i]);
+		letterBtn.setAttribute('class', 'dissabled');
+
+		letterBtn.removeEventListener("click" , checkLetter);
+
+	}
+
+
 }
 
 
@@ -50,17 +71,28 @@ function setActualPassword() {
 
 	actualSentence = sentences[randomNum].toUpperCase();
 
-	for(var i = 0; i < actualSentence.length; i++) {
+	var sentenceChars = actualSentence.split('');
 
-		var liNode = document.createElement("LI"); 
+	for(var i = 0; i < sentenceChars.length; i++) {
 
-		liNode.setAttribute('id', 'sentenceIndex'+i);
+		if(sentenceChars[i] != ' ') {
 
-		 sentenceUl.appendChild(liNode);
+			var liNode = document.createElement("LI"); 
+			liNode.setAttribute('id', 'sentenceIndex'+i);
+			liNode.setAttribute('class', 'sentenceLetterLi');
+		 	sentenceUl.appendChild(liNode);
+
+		} else {
+
+			var liNode = document.createElement("LI"); 
+			liNode.setAttribute('class', 'space');
+		 	sentenceUl.appendChild(liNode);
+
+		}		
 		
 	}
 
-
+	checkSpacesInSentence();
 
 }
 
@@ -112,9 +144,25 @@ function checkLetter(e) {
 
 		 howManyCanYouTry--;
 		 document.getElementById('howMany').innerHTML = howManyCanYouTry;
+		 addGallowELements();
 	}
 
 	checkIfGameOVer();
+
+}
+
+function addGallowELements() {
+
+	var liNode = document.createElement('LI');
+
+	if(howManyCanYouTry != 0) {
+		liNode.innerHTML = '|'
+	} else {
+		liNode.innerHTML = 'O'
+	}
+	
+
+	gallow.appendChild(liNode);
 
 }
 
@@ -132,6 +180,19 @@ function setGuesseddLetters (letter) {
 
 	}
 
+
+}
+
+function checkSpacesInSentence() {
+
+	for(var i = 0; i < actualSentence.length; i++) {
+
+
+			if(actualSentence[i] == ' '){
+				numberOfGuessedLetters++;
+			}
+
+	}
 
 }
 

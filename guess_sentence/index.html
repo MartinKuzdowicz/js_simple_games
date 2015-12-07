@@ -33,7 +33,7 @@
   border-radius: 6px;
 }
 
-#sentence li {
+.sentenceLetterLi {
 
   text-transform: uppercase;
   display: inline-block;
@@ -49,6 +49,36 @@
 
 }
 
+.space {
+
+  display: inline-block;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+
+}
+
+#gallow {
+
+  list-style: none;
+
+}
+
+#gallowDiv {
+  border: 1px solid #ddd;
+  width: 20%;
+}
+
+
+.dissabled {
+  background-color: black;
+  cursor: not-allowed !important;
+}
+
+
 </style>
 
 </head>
@@ -61,6 +91,11 @@
 	</header>
 
   <p>how many can i try: <span id="howMany"></span></p>
+  <br />
+  <p>GALLOW</p>
+  <div id="gallowDiv">
+  <ul class="text-center" id="gallow"></ul>
+</div>
 
  <div class="grid">    
    
