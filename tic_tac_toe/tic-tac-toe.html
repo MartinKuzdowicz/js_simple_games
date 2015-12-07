@@ -7,7 +7,7 @@
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
  <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+
 <style type="text/css">
 
 #kolko_krzyzyk_table, #kolko_krzyzyk_table td {
@@ -33,7 +33,6 @@ header {
 
 #startNewGameBtn {
 	cursor: pointer;
-	m
 }
 
 #kolko_krzyzyk_table {
@@ -105,6 +104,8 @@ header {
 var COLOR_RED = 'red';
 var COLOR_BLUE = 'blue';
 
+var GAME_IS_OVER = false;
+
 var gameRound;
 
 var p1;
@@ -118,17 +119,20 @@ var p8;
 var p9;
 
 
+var fields = ['n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'];
+
+
 function initGame() {
 
-	p1 ='n';
-	p2 ='n';
-	p3 ='n';
-	p4 ='n';
-	p5 ='n';
-	p6 ='n';
-	p7 ='n';
-	p8 ='n';
-	p9 ='n';
+	p1 = fields[0];
+	p2 = fields[1];
+	p3 = fields[2];
+	p4 = fields[3];
+	p5 = fields[4];
+	p6 = fields[5];
+	p7 = fields[6];
+	p8 = fields[7];
+	p9 = fields[8];
 
 	gameRound = COLOR_RED;
 }
@@ -158,42 +162,61 @@ function addColorToEventTarget(e) {
 
 }
 
+function addColorToTargetById(id) {
+
+
+	$('#'+id).css('background-color', gameRound);
+	$('#'+id).attr('disabled', true);
+
+	setFieldVariabels(id, gameRound);
+
+}
+
 function setFieldVariabels(fieldName, color) {
 
 	if(fieldName == 'p1') {
 		p1 = color;
+		fields[0] = color;
 	}
 
 	if(fieldName == 'p2') {
 		p2 = color;
+		fields[1] = color;
 	}
 
 	if(fieldName == 'p3') {
 		p3 = color;
+		fields[2] = color;
 	}
 
 	if(fieldName == 'p4') {
 		p4 = color;
+		fields[3] = color;
 	}
 
 	if(fieldName == 'p5') {
 		p5 = color;
+		fields[4] = color;
 	}
 
 	if(fieldName == 'p6') {
 		p6 = color;
+		fields[5] = color;
 	}
 
 	if(fieldName == 'p7') {
 		p7 = color;
+		fields[6] = color;
 	}
 
 	if(fieldName == 'p8') {
 		p8 = color;
+		fields[7] = color;
 	}
 
 	if(fieldName == 'p9') {
 		p9 = color;
+		fields[8] = color;
 	}
 
 }
@@ -202,48 +225,56 @@ function alertWinnerIfThereIsAWinner() {
 
 	if(p1 == p2 && p2 == p3 && p1 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p1);
 
 	}
 
 	if(p4 == p5 && p5 == p6 && p4 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p4);
 
 	}
 
 	if(p7 == p8 && p8 == p9 && p7 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p7);
 
 	}
 
 	if(p1 == p5 && p5 == p9 && p1 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p1);
 
 	}
 
 	if(p7 == p5 && p5 == p3 && p7 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p7);
 
 	}
 
 	if(p1 == p4 && p4 == p7 && p1 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p1);
 
 	}
 
 	if(p2 == p5 && p5 == p8 && p2 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p2);
 
 	}
 
 	if(p3 == p6 && p6 == p9 && p3 != 'n') {
 
+		GAME_IS_OVER = true;
 		alert('winning color: '+p3);
 
 	}
@@ -294,23 +325,67 @@ function chceckIFFieldIsSet(filedVar) {
 
 }
 
+var userMoved = false;
+
+function play(e) {
+
+		if(!userMoved) {
+
+			var isNotset = chceckIfFieldISSet(e);
+
+			if(isNotset) {
+
+				addColorToEventTarget(e);
+				switchColor();
+
+			}
+
+			userMoved = true;
+
+		} else {
+			alert('wait for computer');
+		}
+
+	
+
+		if(userMoved && !GAME_IS_OVER) {
+
+
+			setTimeout(computerMove, 3000);
+	
+		}
+
+		
+		alertWinnerIfThereIsAWinner();
+
+	}
+
+
+function computerMove() {
+
+	for(var i = 0; i < fields.length; i++) {
+
+		if(fields[i] == 'n') {
+
+			var id = 'p'+(i+1);
+
+			addColorToTargetById(id);
+			switchColor();
+			break;
+		}
+
+	}
+
+	userMoved = false;
+
+}
+
 $(document).ready(function(){
 
 	initGame();
 
 	$('td').click(function(e){
-
-		var isNotset = chceckIfFieldISSet(e);
-
-		if(isNotset) {
-
-			addColorToEventTarget(e);
-			switchColor();
-			alertWinnerIfThereIsAWinner();
-
-		}
-
-
+		play(e);
 	});
 
 
