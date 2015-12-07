@@ -8,11 +8,6 @@
 
     var welcomeContainer = document.getElementById('welcomeContainer');
 
-    // init();
-
-    // addEventsToLiElements();
-
-    // start();
 
     // ----FUNCTIONS--------------------------------------------------
 
