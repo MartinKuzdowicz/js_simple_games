@@ -6,12 +6,16 @@ var blocks = [];
 var takenBlocks = [];
 var moveCounts = 0;
 
+var youCanClick = true;
+
 var board = $('#board');
 
 var startGameBtn = document.getElementById('startGameBtn');
 
+var guessedBlockPairs = 0;
+
 var blocksImages = [
-    'images/ititle_1.png',
+    'images/title_1.png',
     'images/title_2.png',
     'images/title_3.png',
     'images/title_4.png',
@@ -43,6 +47,13 @@ function startGame() {
 
 	fillBoardWithBlocks();
 	
+	youCanClick = true;
+
+	moveCounts = 0;
+
+	guessedBlockPairs = 0;
+
+	$('#moves').html(moveCounts);
 
 	
 }
@@ -77,7 +88,7 @@ function fillBoardWithBlocks() {
 
 		tile.data('cardType',blocks[i]);
 	    tile.data('index', i);
-	    
+
 	     tile.css({
 	        left : 5+(tile.width()+5)*(i%BLOCKS_ON_COLUMN)
 	    });
@@ -86,12 +97,72 @@ function fillBoardWithBlocks() {
 	    });
 	 
 	    tile.click('click',function() {
-	        // klikniecieKafelka($(this))
+
+	        clickOnBlock($(this))
+
 	    });
 
 	  
    
 	}
+
+}
+
+
+function clickOnBlock(element) {
+
+	if (!takenBlocks[0] || (takenBlocks[0].data('index') != element.data('index'))) {
+
+            takenBlocks.push(element);
+            element.css({'background-image' : 'url('+blocksImages[element.data('cardType')]+')'});
+
+        }
+
+      if (takenBlocks.length == 2) {
+
+            youCanClick = false;
+
+            if (takenBlocks[0].data('cardType')==takenBlocks[1].data('cardType')) {
+                setTimeout(removeBlocks, 500);
+            } else {
+                setTimeout(resetBlocks, 500);
+            }
+            moveCounts++;
+        }
+
+        $('#moves').html(moveCounts);
+
+}
+
+function removeBlocks() {
+	console.log('removeBlocks()');
+
+	takenBlocks[0].fadeOut(function(){
+		$(this).remove();
+	});
+	takenBlocks[1].fadeOut(function(){
+		$(this).remove();
+		takenBlocks = [];
+		youCanClick = true;
+		guessedBlockPairs++;
+
+		if(guessedBlockPairs >= (NUBER_OF_BLOCKS / 2) ) {
+
+			alert('game over!');
+
+		}
+	});
+
+}
+
+function resetBlocks() {
+	console.log('resetBlocks()');
+
+	takenBlocks[0].css({'background-image':'url(images/title.png)'})
+    takenBlocks[1].css({'background-image':'url(images/title.png)'})
+    takenBlocks = [];
+
+	youCanClick = true;
 
 }
 
