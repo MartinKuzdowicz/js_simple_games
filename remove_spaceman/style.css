@@ -14,7 +14,11 @@ ul li {
   display: inline-block;
   margin-left: 5px;
   margin-bottom: 5px;
-  cursor: pointer;
+  cursor: crosshair;
+}
+
+ul li:hover {
+	opacity: 0.7;
 }
 
 img[src="images/kosmita.png"] {
