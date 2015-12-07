@@ -18,7 +18,7 @@ body {
     float: left;
     width: 80px;
     height: 80px;
-    background: #f6da17 url(images/title.png) center center no-repeat;
+    background: #ddd url(images/title.png) center center no-repeat;
     margin: 5px;
     border-radius: 5px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), inset 1px 1px 1px #fff, 1px 1px 3px rgba(0,0,0,1);
