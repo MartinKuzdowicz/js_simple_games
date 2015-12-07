@@ -2,11 +2,7 @@ body {
 	background-color: #3F3F3F;
 }
 
-#kolko_krzyzyk_table td {
-	border: 1px solid black;
-}
-
-#kolko_krzyzyk_table {
+#tic_tac_toe_table {
 	width: 35%;
 	height: 350px;
 	margin: 0 auto;
@@ -18,11 +14,12 @@ header {
 	margin: 0 auto;
 }
 
-#kolko_krzyzyk_table td {
+#tic_tac_toe_table td {
 	cursor: pointer;
 	margin: 0;
 	padding: 0;
 	background-color: #ddd;
+	border: 1px solid black;
 }
 
 #startNewGameBtn {
