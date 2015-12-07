@@ -1,0 +1,72 @@
+body {
+	background-color: #3F3F3F;
+}
+
+#kolko_krzyzyk_table td {
+	border: 1px solid black;
+}
+
+#kolko_krzyzyk_table {
+	width: 35%;
+	height: 350px;
+	margin: 0 auto;
+
+}
+
+header {
+	width: 80%;
+	margin: 0 auto;
+}
+
+#kolko_krzyzyk_table td {
+	cursor: pointer;
+	margin: 0;
+	padding: 0;
+	background-color: #ddd;
+}
+
+#startNewGameBtn {
+	cursor: pointer;
+}
+
+#roundColor {
+	width: 50px;
+	height: 50px;
+	background-color: red;
+	border-radius: 6px;
+}
+
+#roundwrapper {
+	margin: 0 auto;
+	width: 50%;
+	background-color: #ddd;
+}
+
+.roundInfo {
+	display: inline-block;
+}
+
+#roundwrapper {
+	width: 20%;
+	margin: 0 auto;
+	border: 1px solid #ddd;
+	padding: 12px 3px 3px 3px;
+	border-radius: 6px;
+}
+
+#ticTitle h1, h2 {
+
+	margin: 0;
+	padding: 0;
+	color: white;
+
+}
+
+#ticTitle {
+	margin-top: 15px;
+}
+
+#startBtnWrapper {
+	margin: 25px auto 0 auto;
+}
+
