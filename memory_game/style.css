@@ -1,0 +1,28 @@
+#board {
+	 position: relative;
+    background: #fff;
+    overflow: hidden;
+    width: 440px;
+    height: 355px;
+    box-shadow: 1px 1px 1px #fff, inset 1px 1px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    margin: 0 auto;
+}
+
+.block {
+	position: absolute;
+    float: left;
+    width: 80px;
+    height: 80px;
+    background: #f6da17 url(images/title.png) center center no-repeat;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2), inset 1px 1px 1px #fff, 1px 1px 3px rgba(0,0,0,1);
+}
+
+#boardContainer {
+
+	width: 80%;
+	margin: 0 auto;
+
+}
