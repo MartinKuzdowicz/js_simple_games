@@ -2,27 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>remove red blocks</title>
+  <title>remove spaceman</title>
   <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-	<header class="text-center">
 
+	<header class="text-center">
 		<h1> remove spaceman</h1>
-		<h3>points : <span id="points"></span></h3>
+		<h3>points : <span id="points">0</span></h3>
 	</header>
 
-  <ul id="grid">
-   
-  </ul>
-  <br />
-  <hr />
-  <button class="btn btn-success pull-right" id="startGameBtn" onclick="startNewGame()">start new game</button>
- </div>
-	<script src="main.js"></script>
+  <div class="text-center" id="welcomeContainer">
+    <br />
+    <img id="welcomeImg" src="images/kosmita.png" />
+  </div>
 
+  <ul id="grid"> </ul>
+
+
+    <br />
+    <hr />
+    <div class="text-center">
+         <button class="btn btn-danger" id="startGameBtn" onclick="startNewGame()">start new game</button>
+    </div>
+   
+ </div>
+
+	<script src="main.js"></script>
 </body>
 </html>

@@ -6,11 +6,13 @@
     var points = 0;
     var intervalFunction;
 
-    init();
+    var welcomeContainer = document.getElementById('welcomeContainer');
 
-    addEventsToLiElements();
+    // init();
 
-    start();
+    // addEventsToLiElements();
+
+    // start();
 
     // ----FUNCTIONS--------------------------------------------------
 
@@ -26,6 +28,8 @@
     }
 
     function init() {
+
+      welcomeContainer.remove();
 
       document.getElementById('points').innerHTML = points;
       var grid = document.getElementById('grid');

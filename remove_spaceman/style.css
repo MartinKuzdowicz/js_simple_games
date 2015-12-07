@@ -14,10 +14,18 @@ ul li {
   display: inline-block;
   margin-left: 5px;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 
 img[src="images/kosmita.png"] {
 	width: 100px;
 	height: 100px;
   background-color: silver;
+}
+
+#welcomeImg{
+
+    width: 30%;
+    height: auto;
+    margin: 0 auto;
 }
