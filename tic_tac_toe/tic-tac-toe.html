@@ -106,6 +106,8 @@ var COLOR_BLUE = 'blue';
 
 var GAME_IS_OVER = false;
 
+var userMoved = false;
+
 var gameRound;
 
 var p1;
@@ -119,10 +121,12 @@ var p8;
 var p9;
 
 
-var fields = ['n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'];
+var fields;
 
 
 function initGame() {
+
+	fields = ['n', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'];
 
 	p1 = fields[0];
 	p2 = fields[1];
@@ -135,6 +139,10 @@ function initGame() {
 	p9 = fields[8];
 
 	gameRound = COLOR_RED;
+
+	GAME_IS_OVER = false;
+
+    userMoved = false;
 }
 
 function switchColor(){
@@ -325,7 +333,7 @@ function chceckIFFieldIsSet(filedVar) {
 
 }
 
-var userMoved = false;
+
 
 function play(e) {
 
@@ -337,6 +345,7 @@ function play(e) {
 
 				addColorToEventTarget(e);
 				switchColor();
+				alertWinnerIfThereIsAWinner();
 
 			}
 
@@ -351,32 +360,37 @@ function play(e) {
 		if(userMoved && !GAME_IS_OVER) {
 
 
-			setTimeout(computerMove, 3000);
+			computerMove();
 	
 		}
-
-		
-		alertWinnerIfThereIsAWinner();
 
 	}
 
 
 function computerMove() {
 
+	setTimeout(function(){
+
 	for(var i = 0; i < fields.length; i++) {
 
-		if(fields[i] == 'n') {
+			if(fields[i] == 'n') {
 
-			var id = 'p'+(i+1);
+				var id = 'p'+(i+1);
 
-			addColorToTargetById(id);
-			switchColor();
-			break;
+				addColorToTargetById(id);
+				switchColor();
+				break;
+			}
+
 		}
 
-	}
+		userMoved = false;
+		if(!GAME_IS_OVER) {
+			alertWinnerIfThereIsAWinner();
+		}
+		
 
-	userMoved = false;
+	}, 2000);
 
 }
 
@@ -384,8 +398,11 @@ $(document).ready(function(){
 
 	initGame();
 
-	$('td').click(function(e){
+	$('td').click(function(e, callback){
 		play(e);
+
+		
+
 	});
 
 
