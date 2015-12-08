@@ -1,3 +1,10 @@
+body, header, h1 {
+  margin: 0;
+  padding: 0;
+  background-color: #3F3F3F;
+  color: white;
+}
+
 #letters li{
 
   display: inline-block;
@@ -15,13 +22,17 @@
   border-radius: 6px;
   border: 1px solid black;
   cursor: pointer;
+   background-color: #ddd;
+  color: black;
 }
 
 #sentence {
 
-  height: 200px;
+  height: 80px;
   border: 1px solid black;
   border-radius: 6px;
+  padding: 3px;
+  margin: 0 auto;
 }
 
 .sentenceLetterLi {
@@ -52,22 +63,12 @@
 
 }
 
-#gallow {
-
-  list-style: none;
-  font-weight: bold;
-
-}
-
-#gallowDiv {
-  border: 1px solid #ddd;
-  width: 20%;
-  margin: 0 auto 20px auto;
-  border-radius: 6px;
-}
-
-
 .dissabled {
   background-color: black;
   cursor: not-allowed !important;
+}
+
+#canvasGallow{
+  border: solid 3px black;
+  background-color: #ddd;
 }

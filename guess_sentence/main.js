@@ -17,16 +17,38 @@ var numberOfGuessedLetters = 0;
 
 var actualSentence;
 
-var gallow = document.getElementById('gallow');
+var ctx;
+
+
+// for canvas ----------------------------------
+
+var MAX_LINE_PARTS = 5;
+
+var counter = 0;
+
+var positionIncrementVal = 30;
+
+var actualYPos;
+
+var starPos = 20;
+
+var canvasGallow;
 
 
 // MAIN ----------------------------------------
 
+window.onload = function() {
 
-init();
-setActualPassword();
+	init();
+	setActualPassword();
 
+	canvasGallow = document.getElementById('canvasGallow');
 
+	ctx = canvasGallow.getContext('2d');
+
+	initCanvasGallow(ctx);
+
+}
 
 // FUNCTIONS ------------------------------------------
 
@@ -153,16 +175,7 @@ function checkLetter(e) {
 
 function addGallowELements() {
 
-	var liNode = document.createElement('LI');
-
-	if(howManyCanYouTry != 0) {
-		liNode.innerHTML = '|'
-	} else {
-		liNode.innerHTML = 'O'
-	}
-	
-
-	gallow.appendChild(liNode);
+	drawGallowNextLine(ctx);
 
 }
 
@@ -206,7 +219,57 @@ startGameBtn.addEventListener("click", function(e){
 	resetDomElementsAndVars();
 	init();
 	setActualPassword();
+	ctx.clearRect(0,0, canvasGallow.width,canvasGallow.height);
 
 });
+
+
+// CANVAS gallow ----------------------------------------------
+
+var xCoordinate = 150;
+
+function initCanvasGallow(context) {
+
+		context.beginPath();
+		context.moveTo(xCoordinate, starPos);
+		context.lineWidth = 8;
+		context.setLineDash([6,2]);
+
+	}
+
+
+	function drawGallowNextLine(context) {
+
+		if(counter == 0) {
+			actualYPos = starPos + positionIncrementVal;
+			ctx.lineTo(xCoordinate, actualYPos);
+			ctx.stroke();
+			counter++;
+			return;
+		}
+
+		if(counter < MAX_LINE_PARTS - 1) {
+
+			actualYPos += positionIncrementVal;
+			context.lineTo(xCoordinate, actualYPos);
+			context.stroke();
+			counter++;
+
+		} else {
+
+			ctx.lineWidth = 8;
+
+			ctx.beginPath();
+			ctx.lineWidth = 8;
+			ctx.setLineDash([6,2]);
+			actualYPos += positionIncrementVal;
+			ctx.lineWidth = 15;
+			var diameter = 50;
+			context.arc(xCoordinate, actualYPos + (diameter / 2 ), diameter, 0, Math.PI * 2);
+			context.stroke();
+
+		}
+
+	}
 
 
