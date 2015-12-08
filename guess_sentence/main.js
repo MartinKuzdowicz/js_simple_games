@@ -28,9 +28,10 @@ var counter = 0;
 
 var positionIncrementVal = 30;
 
+var starPos = 20;
+
 var actualYPos;
 
-var starPos = 20;
 
 var canvasGallow;
 
@@ -220,6 +221,11 @@ startGameBtn.addEventListener("click", function(e){
 	init();
 	setActualPassword();
 	ctx.clearRect(0,0, canvasGallow.width,canvasGallow.height);
+	counter = 0;
+	positionIncrementVal = 30;
+	starPos = 20;
+	howManyCanYouTry = 5;
+	numberOfGuessedLetters = 0;
 
 });
 
