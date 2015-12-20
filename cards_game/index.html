@@ -98,6 +98,8 @@ ul.cardsUL li {
 			<p class="col-md-offset-2 bg-primary col-md-3 text-center"><strong>Computer</strong></p>
 		</div>
 			<ul class="cardsUL text-center" id="compCardsUL"></ul>
+			<hr />
+			<button id="compGetCardsStackBtn" class="btn btn-danger">comp get cards from stack</button>
 		</div>
 		<br />
 		<br />
@@ -109,6 +111,8 @@ ul.cardsUL li {
 			<p class="col-md-offset-2 bg-primary col-md-3 text-center"><strong>Human</strong></p>
 		</div>
 			<ul class="cardsUL text-center" id="humCardsUL"></ul>
+			<hr />
+			<button id="humnGetCardsStackBtn" class="btn btn-success">human get cards from stack</button>
 		</div>
 
 	</div>
@@ -152,6 +156,15 @@ window.onload = function() {
 	dropZone.addEventListener("dragover", dragover, false);
 
 	dropZone.addEventListener("drop", drop, false);
+
+	var compGetCardsFromStackBtn = document.getElementById('compGetCardsStackBtn');
+
+	compGetCardsFromStackBtn.addEventListener("click", computerGetCardsFromStack, false);
+
+
+	var humanGetCardsFromStackBtn = document.getElementById('humnGetCardsStackBtn');
+
+	humanGetCardsFromStackBtn.addEventListener("click", humanGetCardsFromStack, false);
 
 };
 
@@ -304,6 +317,28 @@ function drop(e){
 
 
 	}
+
+function humanGetCardsFromStack() {
+
+	humCardsList.concat(droppedCardsStack);
+	initHumanCards();
+	droppedCardsStack = [];
+	var dropZone = document.getElementById('dropZone');
+	dropZone.innerHTML = '';
+	dropCounter = 0;
+
+}
+
+function computerGetCardsFromStack() {
+
+	compCardsList.concat(droppedCardsStack);
+	initComputerCards();
+	droppedCardsStack = [];
+	var dropZone = document.getElementById('dropZone');
+	dropZone.innerHTML = '';
+	dropCounter = 0;
+
+}
 
 function performGameLogic() {
 
