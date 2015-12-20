@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" \>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+
+<title>cards game</title>
+
+<style>
+	
+ul {
+  margin: 0 auto;
+  margin-top:50px;
+  padding: 0;
+  width: 950px;
+}
+
+ul li {
+  list-style: none;
+  display: inline-block;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
+#dropZone{
+	width: 300px;
+	height: 300px;
+	background-color: #ddd;
+	border: 1px dotted black;
+	margin: 0 auto;
+	padding-top: 5%;
+}
+
+#status {
+	width: 300px;
+	height: 80px;
+	background-color: #ddd;
+	border: 1px dotted black;
+	margin: 0 auto;
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+.card {
+	width: 70px;
+}
+
+</style>
+	
+</head>	
+<body>
+
+	<div class="container">
+		
+	<h1 class="text-center text-uppercase">crads game</h1>
+
+	<div id="status" class="text-center">drop count: 0 <br /> points: 0</div>
+
+	<div id="cardsDiv">
+
+		<ul id="cardsUL"></ul>
+
+	</div>
+	<br />
+	<br />
+	<div id="dropZone" class="text-center"></div>
+
+
+	</div>
+<script>
+	
+// object coonstructors ---------------------------------
+
+function PlayCard(src, val, name) {
+	this.imgSrc = src;
+	this.gameVal = val;
+	this.name = name;
+}
+
+// global vars ------------------------------------------
+
+var cardsDir = 'cards/';
+
+var darggedElId;
+
+var droppedObject;
+
+var dropCounter = 0;
+
+var points = 0;
+
+var cards = {
+	twoOfClubs : new PlayCard(cardsDir+ '2_of_clubs.png', 2, '2 of clubs'),
+	twoOfDiamonds : new PlayCard(cardsDir+ '2_of_diamonds.png', 2, '2 of diamonds'),
+	twoOfHearts : new PlayCard(cardsDir+ '2_of_hearts.png', 2, '2 of hearts'),
+	twoOfSpades : new PlayCard(cardsDir+ '2_of_spades.png', 2, '2 of spades'),
+
+	threeOfClubs : new PlayCard(cardsDir+ '3_of_clubs.png', 3, '3 of clubs'),
+	threeOfDiamonds : new PlayCard(cardsDir+ '3_of_diamonds.png', 3, '3 of diamonds'),
+	threeOfHearts : new PlayCard(cardsDir+ '3_of_hearts.png', 3, '3 of hearts'),
+	threeOfSpades : new PlayCard(cardsDir+ '3_of_spades.png', 3, '3 of spades'),
+
+	fourOfClubs : new PlayCard(cardsDir+ '4_of_clubs.png', 4, '4 of clubs'),
+	fourOfDiamonds : new PlayCard(cardsDir+ '4_of_diamonds.png', 4, '4 of diamonds'),
+	fourOfHearts : new PlayCard(cardsDir+ '4_of_hearts.png', 4, '4 of hearts'),
+	fourOfSpades : new PlayCard(cardsDir+ '4_of_spades.png', 4, '4 of spades'),
+
+	fiveOfClubs : new PlayCard(cardsDir+ '5_of_clubs.png', 5, '5 of clubs'),
+	fiveOfDiamonds : new PlayCard(cardsDir+ '5_of_diamonds.png', 5, '5 of diamonds'),
+	fiveOfHearts : new PlayCard(cardsDir+ '5_of_hearts.png', 5, '5 of hearts'),
+	fiveOfSpades : new PlayCard(cardsDir+ '5_of_spades.png', 5, '5 of spades')
+}
+
+
+// main ----------------------------------------------------
+
+window.onload = function() {
+
+	var cardsUL = document.getElementById('cardsUL');
+
+	var dropZone = document.getElementById('dropZone');
+
+
+	for(var key in cards) {
+
+		var li = document.createElement('LI');
+		var img = document.createElement('IMG');
+		var tempCard = cards[key];
+		img.src = tempCard.imgSrc;
+		img.id = key;
+		img.className = 'card';
+
+		img.addEventListener("dragstart", drag, false);
+
+		li.appendChild(img);
+		cardsUL.appendChild(li);
+
+	}
+
+	dropZone.addEventListener("dragover", dragover, false);
+
+	dropZone.addEventListener("drop", drop, false);
+
+};
+
+// functions
+
+
+function drag(e) {
+
+	darggedElId = e.target.id;
+	// e.dataTransfer.setData("elId", e.target.id);
+
+}
+
+function dragover(e) {
+
+	e.preventDefault();
+
+}
+
+function drop(e){
+
+	e.preventDefault();
+
+	performGameLogic();
+
+	
+	}
+
+function performGameLogic() {
+
+	var dropZone = document.getElementById('dropZone');
+
+	var actualCardInDropZoneObj = droppedObject;
+
+	var newDroppedCard = cards[darggedElId];
+
+	var gameStatus = document.getElementById('status');
+
+	var statusMsg;
+
+
+	var Strategy = {
+
+		firstTime: function() {
+
+								droppedObject = cards[darggedElId];
+								dropZone.appendChild(document.getElementById(darggedElId));
+
+								dropCounter++;
+
+								statusMsg = 'drop count: ' + dropCounter + '<br />' 
+									+ droppedObject.name + ' is in drop zone' 
+									+ '<br /> points: ' +points;
+								
+								gameStatus.innerHTML = statusMsg;
+								
+							},
+
+		isGreater : function() {
+							// delete preview card
+							dropZone.innerHTML = '';
+							// move new
+							dropZone.appendChild(document.getElementById(darggedElId));
+							// swap global var for actual card in playground
+							droppedObject = newDroppedCard;
+
+							dropCounter++;
+							points++;
+
+							statusMsg = 'drop count: ' + dropCounter + 
+								'<br />' + newDroppedCard.name + 
+								' is in drop zone' + '<br /> points: ' +points;
+							// update status msg	
+							gameStatus.innerHTML = statusMsg;
+
+						},
+		isEqual : function() {alert(newDroppedCard.name + ' is equal to ' + actualCardInDropZoneObj.name + ', choose greater card');},
+		isLess : function() { alert(newDroppedCard.name + ' is less then ' + actualCardInDropZoneObj.name + ', choose greater card');}
+
+	}
+
+
+	if(dropCounter == 0) {
+
+		Strategy.firstTime();
+		return;
+
+	} 
+
+	if (newDroppedCard.gameVal > actualCardInDropZoneObj.gameVal) {
+
+		Strategy.isGreater();
+		return;
+	} 
+
+	if(newDroppedCard.gameVal == actualCardInDropZoneObj.gameVal) {
+
+		Strategy.isEqual();
+		return;
+	} 
+
+	if(newDroppedCard.gameVal < actualCardInDropZoneObj.gameVal) {
+
+		Strategy.isLess();
+		return;
+	} 
+
+
+}
+
+
+
+</script>
+
+</body>
+</html>
