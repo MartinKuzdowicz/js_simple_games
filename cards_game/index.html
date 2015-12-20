@@ -120,7 +120,7 @@ ul.cardsUL li {
 
 // global vars ------------------------------------------
 
-
+var droppedCardsStack = [];
 
 var darggedElId;
 
@@ -278,6 +278,33 @@ function drop(e){
 	
 	}
 
+	function removeCardFromPalyersCards(player, card) {
+
+		if(player == palyers[0]) {
+
+			for(var i = 0; i < humCardsList.length; i++) {
+
+				if(humCardsList[i].key == card.key) {
+					humCardsList.splice(i, 1);
+				}
+
+			}
+
+		} else {
+
+			for(var i = 0; i < compCardsList.length; i++) {
+
+				if(compCardsList[i].key == card.key) {
+					compCardsList.splice(i, 1);
+				}
+
+			}
+
+		}
+
+
+	}
+
 function performGameLogic() {
 
 	var dropZone = document.getElementById('dropZone');
@@ -295,7 +322,11 @@ function performGameLogic() {
 
 		firstTime: function() {
 
+							// set object
 							droppedObject = cards[darggedElId];
+							// add to stack
+							droppedCardsStack.push(droppedObject);
+
 							var newCardNode = document.getElementById(darggedElId);
 
 							dropZone.appendChild(newCardNode);
@@ -309,6 +340,9 @@ function performGameLogic() {
 									+ '<br /> points: ' +points;
 								
 							gameStatus.innerHTML = statusMsg;
+
+							// update palyers cards list
+							removeCardFromPalyersCards(round, droppedObject);
 								
 						},
 
@@ -322,6 +356,8 @@ function performGameLogic() {
 							newCardNode.className = 'cardInDropeZone';
 							// swap global var for actual card in playground
 							droppedObject = newDroppedCard;
+							// add to stack
+							droppedCardsStack.push(droppedObject);
 
 							dropCounter++;
 							points++;
@@ -331,6 +367,9 @@ function performGameLogic() {
 								' is in drop zone' + '<br /> points: ' +points;
 							// update status msg	
 							gameStatus.innerHTML = statusMsg;
+
+							// update palyers cards list
+							removeCardFromPalyersCards(round, droppedObject);
 
 						},
 		isEqual : function() {alert(newDroppedCard.name + ' is equal to ' + actualCardInDropZoneObj.name + ', choose greater card');},
