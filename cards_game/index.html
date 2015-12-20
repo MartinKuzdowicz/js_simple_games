@@ -10,14 +10,14 @@
 
 <style>
 	
-ul {
+ul.cardsUL {
   margin: 0 auto;
   margin-top:50px;
   padding: 0;
-  width: 950px;
+  width: 1150px;
 }
 
-ul li {
+ul.cardsUL li {
   list-style: none;
   display: inline-block;
   margin-left: 5px;
@@ -29,7 +29,7 @@ ul li {
 	height: 300px;
 	background-color: #ddd;
 	border: 1px dotted black;
-	margin: 0 auto;
+	margin: 0 auto 10% auto;
 	padding-top: 5%;
 }
 
@@ -44,7 +44,7 @@ ul li {
 }
 
 .card {
-	width: 70px;
+	width: 65px;
 }
 
 </style>
@@ -58,9 +58,9 @@ ul li {
 
 	<div id="status" class="text-center">drop count: 0 <br /> points: 0</div>
 
-	<div id="cardsDiv">
+	<div id="computerCardsDiv" class="text-center">
 
-		<ul id="cardsUL"></ul>
+		<ul class="cardsUL" id="compCardsUL"></ul>
 
 	</div>
 	<br />
@@ -68,20 +68,23 @@ ul li {
 	<div id="dropZone" class="text-center"></div>
 
 
-	</div>
-<script>
-	
-// object coonstructors ---------------------------------
+	<div id="humanCardsDiv">
 
-function PlayCard(src, val, name) {
-	this.imgSrc = src;
-	this.gameVal = val;
-	this.name = name;
-}
+		<ul class="cardsUL" id="humCardsUL"></ul>
+
+	</div>
+
+
+	</div>
+
+<!-- imoprt cards -->
+<script src="cardsDB.js"></script>
+
+<script>
 
 // global vars ------------------------------------------
 
-var cardsDir = 'cards/';
+
 
 var darggedElId;
 
@@ -91,37 +94,26 @@ var dropCounter = 0;
 
 var points = 0;
 
-var cards = {
-	twoOfClubs : new PlayCard(cardsDir+ '2_of_clubs.png', 2, '2 of clubs'),
-	twoOfDiamonds : new PlayCard(cardsDir+ '2_of_diamonds.png', 2, '2 of diamonds'),
-	twoOfHearts : new PlayCard(cardsDir+ '2_of_hearts.png', 2, '2 of hearts'),
-	twoOfSpades : new PlayCard(cardsDir+ '2_of_spades.png', 2, '2 of spades'),
-
-	threeOfClubs : new PlayCard(cardsDir+ '3_of_clubs.png', 3, '3 of clubs'),
-	threeOfDiamonds : new PlayCard(cardsDir+ '3_of_diamonds.png', 3, '3 of diamonds'),
-	threeOfHearts : new PlayCard(cardsDir+ '3_of_hearts.png', 3, '3 of hearts'),
-	threeOfSpades : new PlayCard(cardsDir+ '3_of_spades.png', 3, '3 of spades'),
-
-	fourOfClubs : new PlayCard(cardsDir+ '4_of_clubs.png', 4, '4 of clubs'),
-	fourOfDiamonds : new PlayCard(cardsDir+ '4_of_diamonds.png', 4, '4 of diamonds'),
-	fourOfHearts : new PlayCard(cardsDir+ '4_of_hearts.png', 4, '4 of hearts'),
-	fourOfSpades : new PlayCard(cardsDir+ '4_of_spades.png', 4, '4 of spades'),
-
-	fiveOfClubs : new PlayCard(cardsDir+ '5_of_clubs.png', 5, '5 of clubs'),
-	fiveOfDiamonds : new PlayCard(cardsDir+ '5_of_diamonds.png', 5, '5 of diamonds'),
-	fiveOfHearts : new PlayCard(cardsDir+ '5_of_hearts.png', 5, '5 of hearts'),
-	fiveOfSpades : new PlayCard(cardsDir+ '5_of_spades.png', 5, '5 of spades')
-}
-
-
 // main ----------------------------------------------------
 
 window.onload = function() {
 
-	var cardsUL = document.getElementById('cardsUL');
 
 	var dropZone = document.getElementById('dropZone');
 
+	initComputerCards();
+
+	dropZone.addEventListener("dragover", dragover, false);
+
+	dropZone.addEventListener("drop", drop, false);
+
+};
+
+// functions ---------------------------------------------------
+
+function initComputerCards() {
+
+	var cardsUL = document.getElementById('compCardsUL');
 
 	for(var key in cards) {
 
@@ -139,19 +131,12 @@ window.onload = function() {
 
 	}
 
-	dropZone.addEventListener("dragover", dragover, false);
-
-	dropZone.addEventListener("drop", drop, false);
-
-};
-
-// functions
+}
 
 
 function drag(e) {
 
 	darggedElId = e.target.id;
-	// e.dataTransfer.setData("elId", e.target.id);
 
 }
 
@@ -187,18 +172,18 @@ function performGameLogic() {
 
 		firstTime: function() {
 
-								droppedObject = cards[darggedElId];
-								dropZone.appendChild(document.getElementById(darggedElId));
+							droppedObject = cards[darggedElId];
+							dropZone.appendChild(document.getElementById(darggedElId));
 
-								dropCounter++;
+							dropCounter++;
 
-								statusMsg = 'drop count: ' + dropCounter + '<br />' 
+							statusMsg = 'drop count: ' + dropCounter + '<br />' 
 									+ droppedObject.name + ' is in drop zone' 
 									+ '<br /> points: ' +points;
 								
-								gameStatus.innerHTML = statusMsg;
+							gameStatus.innerHTML = statusMsg;
 								
-							},
+						},
 
 		isGreater : function() {
 							// delete preview card
