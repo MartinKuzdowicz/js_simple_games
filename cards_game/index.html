@@ -381,7 +381,7 @@ function performGameLogic() {
 								
 						},
 
-		isGreater : function() {
+		isGreaterOrEqual : function() {
 							// delete preview card
 							dropZone.innerHTML = '';
 							// move new
@@ -407,7 +407,7 @@ function performGameLogic() {
 							removeCardFromPalyersCards(round, droppedObject);
 
 						},
-		isEqual : function() {alert(newDroppedCard.name + ' is equal to ' + actualCardInDropZoneObj.name + ', choose greater card');},
+		
 		isLess : function() { alert(newDroppedCard.name + ' is less then ' + actualCardInDropZoneObj.name + ', choose greater card');}
 
 	}
@@ -420,15 +420,9 @@ function performGameLogic() {
 
 	} 
 
-	if (newDroppedCard.gameVal > actualCardInDropZoneObj.gameVal) {
+	if (newDroppedCard.gameVal >= actualCardInDropZoneObj.gameVal) {
 
-		Strategy.isGreater();
-		return;
-	} 
-
-	if(newDroppedCard.gameVal == actualCardInDropZoneObj.gameVal) {
-
-		Strategy.isEqual();
+		Strategy.isGreaterOrEqual();
 		return;
 	} 
 
