@@ -6,13 +6,19 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
 
-<title>cards game</title>
+<title>Black Jack - cards game</title>
 
 <style>
+
+#blackJackMain {
+	background-color: #ddd;
+	width: 100%;
+	margin: 0 auto;
+}
 	
 ul.cardsUL {
   margin: 0 auto;
-  margin-top:50px;
+  margin-top: 1%;
   padding: 0;
   width: 1150px;
 }
@@ -27,24 +33,52 @@ ul.cardsUL li {
 #dropZone{
 	width: 300px;
 	height: 300px;
-	background-color: #ddd;
+	background-color: green;
 	border: 1px dotted black;
-	margin: 0 auto 10% auto;
+	margin: 0 auto;
 	padding-top: 5%;
 }
 
 #status {
 	width: 300px;
 	height: 80px;
-	background-color: #ddd;
-	border: 1px dotted black;
+	background-color: snow;
+	border: 1px solid black;
 	margin: 0 auto;
-	padding-top: 1%;
-	padding-bottom: 1%;
+	padding: 1%;
+}
+
+#round {
+	width: 100px;
+	height: 60px;
+	margin: 1% auto 0 auto;
+	padding: 1%;
+	background-color: brown;
+	color: white;
 }
 
 .card {
 	width: 65px;
+}
+
+.cardInDropeZone {
+
+	width: 120px;
+
+}
+
+#humanCardsDiv {
+
+	margin-bottom: 5%;
+
+}
+
+.playerTitle {
+	margin-top: 1%;
+}
+
+.playerTitle p {
+	border-radius: 6px;
 }
 
 </style>
@@ -52,28 +86,30 @@ ul.cardsUL li {
 </head>	
 <body>
 
-	<div class="container">
+	<div id="blackJackMain" class="container">
 		
-	<h1 class="text-center text-uppercase">crads game</h1>
+		<h1 class="text-center text-uppercase">Black Jack - cards game</h1>
 
-	<div id="status" class="text-center">drop count: 0 <br /> points: 0</div>
+		<div id="status">drop count: 0 <br /> points: 0 </div>
+		<div id="round">round: <br />human</div>
 
-	<div id="computerCardsDiv" class="text-center">
+		<div id="computerCardsDiv">
+		<div class="row playerTitle">
+			<p class="col-md-offset-2 bg-primary col-md-3 text-center"><strong>Computer</strong></p>
+		</div>
+			<ul class="cardsUL text-center" id="compCardsUL"></ul>
+		</div>
+		<br />
+		<br />
+		<div id="dropZone" class="text-center"></div>
 
-		<ul class="cardsUL" id="compCardsUL"></ul>
 
-	</div>
-	<br />
-	<br />
-	<div id="dropZone" class="text-center"></div>
-
-
-	<div id="humanCardsDiv">
-
-		<ul class="cardsUL" id="humCardsUL"></ul>
-
-	</div>
-
+		<div id="humanCardsDiv">
+		<div class="row playerTitle">
+			<p class="col-md-offset-2 bg-primary col-md-3 text-center"><strong>Human</strong></p>
+		</div>
+			<ul class="cardsUL text-center" id="humCardsUL"></ul>
+		</div>
 
 	</div>
 
@@ -94,6 +130,14 @@ var dropCounter = 0;
 
 var points = 0;
 
+var compCardsList = [];
+
+var humCardsList = [];
+
+var palyers = ['human', 'computer'];
+
+var round = palyers[0];
+
 // main ----------------------------------------------------
 
 window.onload = function() {
@@ -103,6 +147,8 @@ window.onload = function() {
 
 	initComputerCards();
 
+	initHumanCards();
+
 	dropZone.addEventListener("dragover", dragover, false);
 
 	dropZone.addEventListener("drop", drop, false);
@@ -111,23 +157,99 @@ window.onload = function() {
 
 // functions ---------------------------------------------------
 
+function swapRound() {
+
+	var roundDiv = document.getElementById('round');
+
+	if(dropCounter % 2 == 0) {
+		round = palyers[0];
+
+	} else {
+		round = palyers[1];
+	}
+
+	roundDiv.innerHTML = "round: <br />" + round;
+
+}
+
 function initComputerCards() {
 
-	var cardsUL = document.getElementById('compCardsUL');
+	populateComputerCardsList();
 
-	for(var key in cards) {
+	var compCardsUL = document.getElementById('compCardsUL');
+
+	for(var i = 0; i < compCardsList.length; i++) {
 
 		var li = document.createElement('LI');
 		var img = document.createElement('IMG');
-		var tempCard = cards[key];
+		var tempCard = compCardsList[i];
 		img.src = tempCard.imgSrc;
-		img.id = key;
+		img.id = tempCard.key;
 		img.className = 'card';
 
 		img.addEventListener("dragstart", drag, false);
 
 		li.appendChild(img);
-		cardsUL.appendChild(li);
+		compCardsUL.appendChild(li);
+
+	}
+
+}
+
+
+function initHumanCards() {
+
+	populateHumanCardsList();
+
+	var humCardsUL = document.getElementById('humCardsUL');
+
+	for(var i = 0; i < humCardsList.length; i++) {
+
+		var li = document.createElement('LI');
+		var img = document.createElement('IMG');
+		var tempCard = humCardsList[i];
+		img.src = tempCard.imgSrc;
+		img.id = tempCard.key;
+		img.className = 'card';
+
+		img.addEventListener("dragstart", drag, false);
+
+		li.appendChild(img);
+		humCardsUL.appendChild(li);
+
+	}
+
+}
+
+
+function populateHumanCardsList() {
+
+	var counter = 0;
+
+	for(var key in cards) {
+
+		if(counter % 2 == 0) {
+			humCardsList.push(cards[key]);
+		}
+
+		counter++;
+
+	}
+
+}
+
+
+function populateComputerCardsList() {
+
+	var counter = 0;
+
+	for(var key in cards) {
+
+		if(counter % 2 != 0) {
+			compCardsList.push(cards[key]);
+		}
+
+		counter++;
 
 	}
 
@@ -151,6 +273,7 @@ function drop(e){
 	e.preventDefault();
 
 	performGameLogic();
+	swapRound();
 
 	
 	}
@@ -173,7 +296,11 @@ function performGameLogic() {
 		firstTime: function() {
 
 							droppedObject = cards[darggedElId];
-							dropZone.appendChild(document.getElementById(darggedElId));
+							var newCardNode = document.getElementById(darggedElId);
+
+							dropZone.appendChild(newCardNode);
+							// larger image
+							newCardNode.className = 'cardInDropeZone';
 
 							dropCounter++;
 
@@ -189,7 +316,10 @@ function performGameLogic() {
 							// delete preview card
 							dropZone.innerHTML = '';
 							// move new
-							dropZone.appendChild(document.getElementById(darggedElId));
+							var newCardNode = document.getElementById(darggedElId);
+							dropZone.appendChild(newCardNode);
+							// larger image
+							newCardNode.className = 'cardInDropeZone';
 							// swap global var for actual card in playground
 							droppedObject = newDroppedCard;
 
