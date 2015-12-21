@@ -124,34 +124,105 @@ ul.cardsUL li {
 
 // global vars ------------------------------------------
 
-var droppedCardsStack = [];
+var droppedCardsStack;
 
 var darggedElId;
 
 var droppedObject;
 
-var dropCounter = 0;
+var dropCounter;
 
-var points = 0;
+var points;
 
-var compCardsList = [];
+var compCardsList;
 
-var humCardsList = [];
+var humCardsList;
 
 var palyers = ['human', 'computer'];
 
-var round = palyers[0];
+var round;
+
+// constructors ---------------------
+
+var ResetGameStackState = {
+
+	stateName : 'ResetGameStackState',
+	updateState : function() {
+
+		console.log('updateState ResetGameStackState');
+
+		droppedCardsStack = [];
+		var dropZone = document.getElementById('dropZone');
+		dropZone.innerHTML = '';
+		dropCounter = 0;
+
+		var compCardsUL = document.getElementById('compCardsUL');
+
+		resetCardsList(compCardsList, compCardsUL);
+
+		var humCardsUL = document.getElementById('humCardsUL');
+
+		resetCardsList(humCardsList, humCardsUL);
+
+	}
+
+}
+
+var StartGameState = {
+
+	stateName : 'StartGameState',
+	updateState: function() {
+
+		console.log('updateState StartGameState');
+
+		dropCounter = 0;
+		points = 0;
+		round = palyers[0];
+		humCardsList = [];
+		compCardsList = [];
+		droppedCardsStack = [];
+
+		initComputerCards();
+		initHumanCards();
+
+
+	}
+
+}
+
+
+var GameOverState = {
+
+	stateName : 'GameOver',
+	updateState: function() {
+
+		alert('Game Over');
+		
+		ContextObject.sate = StartGameState;
+
+		ContextObject.sate.updateState();
+
+	}
+
+}
+
+// context object -------------------------
+
+function ContextObject(state) {
+
+	this.state = state;
+
+}
+
+var ContextObject = new ContextObject(StartGameState);
 
 // main ----------------------------------------------------
 
 window.onload = function() {
 
+	ContextObject.state.updateState();
 
 	var dropZone = document.getElementById('dropZone');
-
-	initComputerCards();
-
-	initHumanCards();
 
 	dropZone.addEventListener("dragover", dragover, false);
 
@@ -204,6 +275,28 @@ function initComputerCards() {
 
 		li.appendChild(img);
 		compCardsUL.appendChild(li);
+
+	}
+
+}
+
+function resetCardsList(cardsList, nodeUl) {
+
+	nodeUl.innerHTML = '';
+
+	for(var i = 0; i < cardsList.length; i++) {
+
+		var li = document.createElement('LI');
+		var img = document.createElement('IMG');
+		var tempCard = cardsList[i];
+		img.src = tempCard.imgSrc;
+		img.id = tempCard.key;
+		img.className = 'card';
+
+		img.addEventListener("dragstart", drag, false);
+
+		li.appendChild(img);
+		nodeUl.appendChild(li);
 
 	}
 
@@ -293,7 +386,6 @@ function drop(e){
 
 	function removeCardFromPalyersCards(player, card) {
 
-		if(player == palyers[0]) {
 
 			for(var i = 0; i < humCardsList.length; i++) {
 
@@ -303,7 +395,6 @@ function drop(e){
 
 			}
 
-		} else {
 
 			for(var i = 0; i < compCardsList.length; i++) {
 
@@ -313,30 +404,26 @@ function drop(e){
 
 			}
 
-		}
-
 
 	}
 
+
 function humanGetCardsFromStack() {
 
-	humCardsList.concat(droppedCardsStack);
-	initHumanCards();
-	droppedCardsStack = [];
-	var dropZone = document.getElementById('dropZone');
-	dropZone.innerHTML = '';
-	dropCounter = 0;
+	humCardsList = humCardsList.concat(droppedCardsStack);
+
+	ContextObject.state = ResetGameStackState;
+	ContextObject.state.updateState();
+	
 
 }
 
 function computerGetCardsFromStack() {
 
-	compCardsList.concat(droppedCardsStack);
-	initComputerCards();
-	droppedCardsStack = [];
-	var dropZone = document.getElementById('dropZone');
-	dropZone.innerHTML = '';
-	dropCounter = 0;
+	compCardsList = compCardsList.concat(droppedCardsStack);
+	
+	ContextObject.state = ResetGameStackState;
+	ContextObject.state.updateState();
 
 }
 
