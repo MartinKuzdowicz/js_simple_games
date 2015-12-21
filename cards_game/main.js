@@ -19,6 +19,8 @@ var palyers = ['human', 'computer'];
 
 var round;
 
+var winner = '';
+
 // constructors ---------------------
 
 var ResetGameStackState = {
@@ -52,6 +54,13 @@ var StartGameState = {
 
 		console.log('updateState StartGameState');
 
+		var compCardsUL = document.getElementById('compCardsUL');
+		compCardsUL.innerHTML = '';
+		var humCardsUL = document.getElementById('humCardsUL');
+		humCardsUL.innerHTML = '';
+		var dropZone = document.getElementById('dropZone');
+		dropZone.innerHTML = '';
+
 		dropCounter = 0;
 		points = 0;
 		round = palyers[0];
@@ -73,7 +82,16 @@ var GameOverState = {
 	stateName : 'GameOver',
 	updateState: function() {
 
-		alert('Game Over');
+		if(humCardsList.length == 1) {
+
+			winner = palyers[0];
+
+		} else {
+
+			winner = palyers[1];
+		}
+
+		alert('Game Over, the winner is : ' + winner);
 		
 		ContextObject.sate = StartGameState;
 
@@ -255,6 +273,14 @@ function drop(e){
 
 	e.preventDefault();
 
+	if (compCardsList.length == 1 || humCardsList.length == 1) {
+		
+			ContextObject.state = GameOverState;
+			ContextObject.state.updateState();
+			return;
+
+	}
+
 	performGameLogic();
 	swapRound();
 
@@ -375,7 +401,6 @@ function performGameLogic() {
 		isLess : function() { alert(newDroppedCard.name + ' is less then ' + actualCardInDropZoneObj.name + ', choose greater card');}
 
 	}
-
 
 	if(dropCounter == 0) {
 
