@@ -11,6 +11,8 @@ var dropCounter;
 
 var points;
 
+var cardsList = [];
+
 var compCardsList;
 
 var humCardsList;
@@ -53,6 +55,8 @@ var StartGameState = {
 	updateState: function() {
 
 		console.log('updateState StartGameState');
+
+		copyCardsFromCrdsDBtoCardsList();
 
 		var compCardsUL = document.getElementById('compCardsUL');
 		compCardsUL.innerHTML = '';
@@ -135,6 +139,29 @@ window.onload = function() {
 };
 
 // functions ---------------------------------------------------
+
+function copyCardsFromCrdsDBtoCardsList() {
+
+	for(var key in cards) {
+		cardsList.push(cards[key]);
+	}
+
+	shuffleCardsList(cardsList);
+
+}
+
+function shuffleCardsList(cardsArr){
+
+	for(var i = (cardsArr.length-1); i > 0; i--) {
+
+		var temp = cardsArr[i];
+		var j = Math.floor(Math.random() * (i + 1) );
+		cardsArr[i] = cardsArr[j];
+		cardsArr[j] = temp;
+
+	}
+
+}
 
 function swapRound() {
 
@@ -225,15 +252,11 @@ function initHumanCards() {
 
 function populateHumanCardsList() {
 
-	var counter = 0;
+	for(var i = 0; i < cardsList.length; i++) {
 
-	for(var key in cards) {
-
-		if(counter % 2 == 0) {
-			humCardsList.push(cards[key]);
+		if(i % 2 == 0) {
+			humCardsList.push(cardsList[i]);
 		}
-
-		counter++;
 
 	}
 
@@ -242,16 +265,11 @@ function populateHumanCardsList() {
 
 function populateComputerCardsList() {
 
-	var counter = 0;
+	for(var i = 0; i < cardsList.length; i++) {
 
-	for(var key in cards) {
-
-		if(counter % 2 != 0) {
-			compCardsList.push(cards[key]);
+		if(i % 2 != 0) {
+			compCardsList.push(cardsList[i]);
 		}
-
-		counter++;
-
 	}
 
 }
