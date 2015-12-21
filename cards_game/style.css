@@ -1,0 +1,97 @@
+#blackJackMain {
+	background-color: #ddd;
+	width: 100%;
+	margin: 0 auto;
+}
+	
+ul.cardsUL {
+  margin: 0 auto;
+  margin-top: 1%;
+  padding: 0;
+  width: 1150px;
+}
+
+ul.cardsUL li {
+  list-style: none;
+  display: inline-block;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
+#dropZone{
+	width: 300px;
+	height: 200px;
+	background-color: green;
+	border: 1px dotted black;
+	margin: 0 auto;
+	padding-top: 1%;
+}
+
+#status {
+	width: 250px;
+	height: 100px;
+	background-color: brown;
+	border-radius: 6px;
+	margin: 0 auto;
+	padding: 1%;
+	color: white;
+}
+
+#round {
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+	padding: 1%;
+	background-color: brown;
+	color: white;
+	border-radius: 6px;
+}
+
+.card {
+	width: 65px;
+}
+
+.cardInDropeZone {
+
+	width: 120px;
+
+}
+
+#humanCardsDiv {
+
+	margin-bottom: 5%;
+
+}
+
+.playerTitle {
+	margin: 0.5% auto 0.5% auto;
+}
+
+.playerTitle p {
+	border-radius: 6px;
+}
+
+.headerClass {
+	display: inline-block;
+}
+
+.headerMainClass {
+	background-color: rgb(37, 36, 36);
+	padding: 1%;
+	color: white;
+}
+
+.cardsWrapperDiv {
+	background-color: #FAF9F9;
+	border: 1px solid black;
+}
+
+#headerList {
+	list-style: none;
+	display: inline-block;
+}
+
+#headerList li {
+	float: left;
+	margin-right: 2px;
+}
