@@ -13,6 +13,8 @@ var points;
 
 var cardsList = [];
 
+var computerActualPossibleMoves = [];
+
 var compCardsList;
 
 var humCardsList;
@@ -22,6 +24,9 @@ var palyers = ['human', 'computer'];
 var round;
 
 var winner = '';
+
+var dropZoneChanged = false;
+
 
 // constructors ---------------------
 
@@ -140,12 +145,75 @@ window.onload = function() {
 
 // functions ---------------------------------------------------
 
+function updateComputerPossibleMoves() {
+
+	computerActualPossibleMoves = [];
+
+	if(droppedCardsStack.length != 0) {
+			var firstCardOnStack = droppedCardsStack[droppedCardsStack.length-1];
+
+			var actualCardVal = firstCardOnStack.gameVal;
+
+			for(var i = 0; i < compCardsList.length;i++){
+
+				var tempVal = compCardsList[i].gameVal;
+				if(tempVal >= actualCardVal) {
+					computerActualPossibleMoves.push(compCardsList[i]);
+				}
+
+			}
+
+	} else {
+
+		computerActualPossibleMoves.concat(compCardsList);
+		
+	}
+
+
+}
+
+function compPickCardFromPossibleMovesAndReturnId() {
+
+	var possibleMovesCount = computerActualPossibleMoves.length;
+
+	var randomIndex = Math.floor(Math.random() * possibleMovesCount);
+
+	var randomCard = computerActualPossibleMoves[randomIndex];
+
+	return randomCard.key;
+
+}
+
+function computerMakeMove() {
+
+	if(computerActualPossibleMoves.length != 0) {
+			darggedElId = compPickCardFromPossibleMovesAndReturnId();
+
+		if (compCardsList.length == 1 || humCardsList.length == 1) {
+			
+				ContextObject.state = GameOverState;
+				ContextObject.state.updateState();
+				return;
+
+		}
+
+		performGameLogic();
+		swapRound();
+		updateComputerPossibleMoves();
+	} else {
+
+		computerGetCardsFromStack();
+	}
+
+}
+
 function copyCardsFromCrdsDBtoCardsList() {
 
 	for(var key in cards) {
 		cardsList.push(cards[key]);
 	}
 
+	shuffleCardsList(cardsList);
 	shuffleCardsList(cardsList);
 
 }
@@ -301,9 +369,20 @@ function drop(e){
 
 	performGameLogic();
 	swapRound();
+	updateComputerPossibleMoves();
+
+
+	if(round = palyers[1] && dropZoneChanged) {
+
+			setTimeout(function(){
+				computerMakeMove();
+			}, 1000);
+
+		}
+
 
 	
-	}
+}
 
 	function removeCardFromPalyersCards(player, card) {
 
@@ -335,6 +414,10 @@ function humanGetCardsFromStack() {
 
 	ContextObject.state = ResetGameStackState;
 	ContextObject.state.updateState();
+
+	setTimeout(function(){
+				computerMakeMove();
+			}, 1000);
 	
 
 }
@@ -423,6 +506,10 @@ function performGameLogic() {
 	if(dropCounter == 0) {
 
 		Strategy.firstTime();
+
+		dropZoneChanged = true;
+
+
 		return;
 
 	} 
@@ -430,12 +517,17 @@ function performGameLogic() {
 	if (newDroppedCard.gameVal >= actualCardInDropZoneObj.gameVal) {
 
 		Strategy.isGreaterOrEqual();
+
+		dropZoneChanged = true;
+
 		return;
 	} 
 
 	if(newDroppedCard.gameVal < actualCardInDropZoneObj.gameVal) {
 
 		Strategy.isLess();
+		dropZoneChanged = false;
+
 		return;
 	} 
 
