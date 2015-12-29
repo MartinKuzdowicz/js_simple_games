@@ -41,10 +41,11 @@ var ResetGameStackState = {
 
 		console.log('updateState ResetGameStackState');
 
+		droppedObject = null;
 		droppedCardsStack = [];
+
 		var dropZone = document.getElementById('dropZone');
 		dropZone.innerHTML = '';
-		dropCounter = 0;
 
 		var compCardsUL = document.getElementById('compCardsUL');
 
@@ -129,9 +130,9 @@ var GameOverState = {
 
 		alert('Game Over, the winner is : ' + winner);
 		
-		ContextObject.sate = StartGameState;
+		contextObject.sate = StartGameState;
 
-		ContextObject.sate.updateState();
+		contextObject.sate.updateState();
 
 	}
 
@@ -142,20 +143,21 @@ var GameOverState = {
 function ContextObject(state) {
 
 	this.state = state;
-	this.performState = function(newState) {
+	this.changeStateTo = function(newState) {
 		this.state = newState;
-		sate.updateState();
+
+		state.updateState();
 	}
 
 }
 
-var ContextObject = new ContextObject(StartGameState);
+var contextObject = new ContextObject(StartGameState);
 
 // main ----------------------------------------------------
 
 window.onload = function() {
 
-	ContextObject.state.updateState();
+	contextObject.state.updateState();
 
 	var dropZone = document.getElementById('dropZone');
 
@@ -219,8 +221,8 @@ function computerMakeMove() {
 
 		if (compCardsList.length == 1 || humCardsList.length == 1) {
 			
-				ContextObject.state = GameOverState;
-				ContextObject.state.updateState();
+				contextObject.state = GameOverState;
+				contextObject.state.updateState();
 				return;
 
 		}
@@ -413,8 +415,8 @@ function drop(e){
 
 	if (compCardsList.length == 1 || humCardsList.length == 1) {
 		
-			ContextObject.state = GameOverState;
-			ContextObject.state.updateState();
+			contextObject.state = GameOverState;
+			contextObject.state.updateState();
 			return;
 
 	}
@@ -464,8 +466,8 @@ function humanGetCardsFromStack() {
 
 	humCardsList = humCardsList.concat(droppedCardsStack);
 
-	ContextObject.state = ResetGameStackState;
-	ContextObject.state.updateState();
+	contextObject.state = ResetGameStackState;
+	contextObject.state.updateState();
 
 	setTimeout(function(){
 				computerMakeMove();
@@ -478,8 +480,8 @@ function computerGetCardsFromStack() {
 
 	compCardsList = compCardsList.concat(droppedCardsStack);
 	
-	ContextObject.state = ResetGameStackState;
-	ContextObject.state.updateState();
+	contextObject.state = ResetGameStackState;
+	contextObject.state.updateState();
 
 }
 
@@ -532,7 +534,7 @@ function performGameLogic() {
 
 							incrementPoints();
 
-							statusMsg = 'drop count: ' + dropCounter + '<br />' 
+							statusMsg = 'moves count: ' + dropCounter + '<br />' 
 									+ droppedObject.name + ' is in drop zone' 
 									+ '<br /> computerPoints: ' + computerPoints
 									+ '<br /> humanPoints: ' + humanPoints;
@@ -564,7 +566,7 @@ function performGameLogic() {
 
 							incrementPoints();
 							
-							statusMsg = 'drop count: ' + dropCounter + 
+							statusMsg = 'moves count: ' + dropCounter + 
 								'<br />' + newDroppedCard.name + 
 								' is in drop zone' 
 								+ '<br /> computerPoints: ' + computerPoints
@@ -581,7 +583,7 @@ function performGameLogic() {
 
 	}
 
-	if(dropCounter == 0) {
+	if(droppedCardsStack.length == 0) {
 
 		Strategy.firstTime();
 
