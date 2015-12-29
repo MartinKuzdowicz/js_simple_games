@@ -17,11 +17,10 @@
 		
 		<header class="text-center headerMainClass">
 		<ul id="headerList">
-			<li><h1 class="text-uppercase headerClass">Black Jack - cards game</h1></li>
+			<li><h2 class="text-uppercase headerClass">Black Jack - cards game</h2></li>
 
 			<li><div id="status" class="headerClass">moves count: 0 <br /> cards: empty <br />computerPoints: 0
 			<br />humanPoints: 0</div></li>
-			<li><div id="round" class="headerClass">round: <br />human</div></li>
 		</ul>
 		</header>
 
@@ -31,17 +30,21 @@
 			</div>
 				<ul class="cardsUL text-center" id="compCardsUL"></ul>
 		</div>
+
+		<div id="playTable">
+			<div id="dropZone" class="text-center"></div>
+			<div id="round" class="backColorBrown" ><p class="text-center">round: </p><p class="text-center">human</p></div>
+
+		</div>
 		
-		<div id="dropZone" class="text-center"></div>
-
-
 		<div id="humanCardsDiv" class="cardsWrapperDiv">
 			<div class="row playerTitle">
 				<p class="col-md-offset-5 bg-primary col-md-2 text-center"><strong>Human</strong></p>
+				<span id="humnGetCardsStackBtn" class="btn btn-danger pull-right">human get cards from stack</span>
 			</div>
 				<ul class="cardsUL text-center" id="humCardsUL"></ul>
 				
-				<button id="humnGetCardsStackBtn" class="btn btn-success pull-right">human get cards from stack</button>
+				
 		</div>
 
 	</div>

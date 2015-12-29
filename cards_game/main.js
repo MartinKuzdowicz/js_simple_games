@@ -31,6 +31,8 @@ var dropZoneChanged;
 
 var cardBackSrc = "cards/cardBack_blue5.png"
 
+var compuerMovesTimeout = 2000;
+
 
 // constructors ---------------------
 
@@ -228,8 +230,6 @@ function computerMakeMove() {
 		}
 
 		performGameLogic();
-		swapRound();
-		updateComputerPossibleMoves();
 
 	} else {
 
@@ -273,12 +273,14 @@ function swapRound() {
 
 	if(round == players[1]) {
 		round = players[0];
+		roundDiv.className = 'backColorBrown';
 
 	} else {
 		round = players[1];
+		roundDiv.className = 'backColorBlue';
 	}
 
-	roundDiv.innerHTML = "round: <br />" + round;
+	roundDiv.innerHTML = '<p class="text-center">round: </p><p class="text-center">' + round + '</p>';
 }
 
 function hideComputerCards() {
@@ -311,8 +313,6 @@ function initComputerCards() {
 		img.src = tempCard.imgSrc;
 		img.id = tempCard.key;
 		img.className = 'card';
-
-		img.addEventListener("dragstart", drag, false);
 
 		li.appendChild(img);
 		compCardsUL.appendChild(li);
@@ -399,7 +399,15 @@ function populateComputerCardsList() {
 
 function drag(e) {
 
-	darggedElId = e.target.id;
+	if(round == players[0]) {
+
+		darggedElId = e.target.id;
+
+	} else {
+
+		alert('wait for computer move!');
+
+	}	
 
 }
 
@@ -422,19 +430,6 @@ function drop(e){
 	}
 
 	performGameLogic();
-	swapRound();
-	updateComputerPossibleMoves();
-
-
-	if(round == players[1] && dropZoneChanged) {
-
-			setTimeout(function(){
-				computerMakeMove();
-			}, 1000);
-
-		}
-
-
 	
 }
 
@@ -471,7 +466,7 @@ function humanGetCardsFromStack() {
 
 	setTimeout(function(){
 				computerMakeMove();
-			}, 1000);
+			}, compuerMovesTimeout);
 	
 
 }
@@ -587,7 +582,16 @@ function performGameLogic() {
 
 		Strategy.firstTime();
 
-		dropZoneChanged = true;
+		swapRound();
+		updateComputerPossibleMoves();
+
+		if(round == players[1]) {
+
+			setTimeout(function(){
+				computerMakeMove();
+			}, compuerMovesTimeout);
+
+		}
 
 
 		return;
@@ -598,7 +602,16 @@ function performGameLogic() {
 
 		Strategy.isGreaterOrEqual();
 
-		dropZoneChanged = true;
+		swapRound();
+		updateComputerPossibleMoves();
+
+		if(round == players[1]) {
+
+			setTimeout(function(){
+				computerMakeMove();
+			}, compuerMovesTimeout);
+
+		}
 
 		return;
 	} 

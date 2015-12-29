@@ -1,5 +1,10 @@
+header {
+	margin: 0;
+	padding: 0;
+}
+
 #blackJackMain {
-	background-color: #ddd;
+	background-color: #D2D2D2;
 	width: 100%;
 	margin: 0 auto;
 }
@@ -19,17 +24,20 @@ ul.cardsUL li {
 }
 
 #dropZone{
-	width: 300px;
-	height: 200px;
-	background-color: green;
-	border: 1px dotted black;
+	width: 400px;
+	height: 240px;
+	background-color: #85C135;
 	margin: 0 auto;
 	padding-top: 1%;
 }
 
+#playTable {
+	margin-left: 20;
+}
+
 #status {
-	width: 250px;
-	height: 100px;
+	width: 220px;
+	height: 90px;
 	background-color: brown;
 	border-radius: 6px;
 	margin: 0 auto;
@@ -40,11 +48,20 @@ ul.cardsUL li {
 #round {
 	width: 100px;
 	height: 100px;
-	margin: 0 auto;
-	padding: 1%;
-	background-color: brown;
+	padding-top: 2%;
 	color: white;
 	border-radius: 6px;
+	margin-left: 70%;
+ 	margin-top: -14%;
+ 	margin-bottom: 4%;
+}
+
+.backColorBrown {
+	background-color: brown;
+}
+
+.backColorBlue {
+	background-color: blue;
 }
 
 .card {
@@ -64,11 +81,13 @@ ul.cardsUL li {
 }
 
 .playerTitle {
-	margin: 0.5% auto 0.5% auto;
+	margin: 0 auto 0.5% auto;
+	padding-top: 0.5%;
 }
 
 .playerTitle p {
 	border-radius: 6px;
+	margin-bottom: 0;
 }
 
 .headerClass {
@@ -79,11 +98,12 @@ ul.cardsUL li {
 	background-color: rgb(37, 36, 36);
 	padding: 1%;
 	color: white;
+	height: 110px;
 }
 
 .cardsWrapperDiv {
 	background-color: #FAF9F9;
-	border: 1px solid black;
+	border-radius: 7px;
 }
 
 #headerList {
@@ -93,5 +113,12 @@ ul.cardsUL li {
 
 #headerList li {
 	float: left;
-	margin-right: 2px;
+}
+
+#headerList li:first-child {
+	margin-right: 30px;
+}
+
+#humnGetCardsStackBtn {
+	margin-right: 1%;
 }
