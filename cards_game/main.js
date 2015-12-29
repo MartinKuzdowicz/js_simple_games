@@ -9,23 +9,27 @@ var droppedObject;
 
 var dropCounter;
 
-var points;
+var computerPoints;
 
-var cardsList = [];
+var humanPoints;
 
-var computerActualPossibleMoves = [];
+var cardsList;
+
+var computerActualPossibleMoves;
 
 var compCardsList;
 
 var humCardsList;
 
-var palyers = ['human', 'computer'];
+var players = ['human', 'computer'];
 
 var round;
 
-var winner = '';
+var winner;
 
-var dropZoneChanged = false;
+var dropZoneChanged;
+
+var cardBackSrc = "cards/cardBack_blue5.png"
 
 
 // constructors ---------------------
@@ -46,9 +50,14 @@ var ResetGameStackState = {
 
 		resetCardsList(compCardsList, compCardsUL);
 
+		hideComputerCards();
+
 		var humCardsUL = document.getElementById('humCardsUL');
 
 		resetCardsList(humCardsList, humCardsUL);
+
+		updateComputerPossibleMoves();
+		swapRound();
 
 	}
 
@@ -61,27 +70,45 @@ var StartGameState = {
 
 		console.log('updateState StartGameState');
 
+		initOrResetGlobalVars();
 		copyCardsFromCrdsDBtoCardsList();
 
-		var compCardsUL = document.getElementById('compCardsUL');
-		compCardsUL.innerHTML = '';
-		var humCardsUL = document.getElementById('humCardsUL');
-		humCardsUL.innerHTML = '';
-		var dropZone = document.getElementById('dropZone');
-		dropZone.innerHTML = '';
-
-		dropCounter = 0;
-		points = 0;
-		round = palyers[0];
-		humCardsList = [];
-		compCardsList = [];
-		droppedCardsStack = [];
+		clearCardsULNodesAndDropeZoneNode();
 
 		initComputerCards();
+
+		hideComputerCards();
+
 		initHumanCards();
 
 
 	}
+
+}
+
+function initOrResetGlobalVars() {
+
+		dropCounter = 0;
+		computerPoints = 0;
+		humanPoints = 0;
+		round = players[0];
+		humCardsList = [];
+		compCardsList = [];
+		droppedCardsStack = [];
+		cardsList = [];
+		omputerActualPossibleMoves = [];
+		winner = '';
+		dropZoneChanged = false;
+}
+
+function clearCardsULNodesAndDropeZoneNode() {
+
+	var compCardsUL = document.getElementById('compCardsUL');
+		compCardsUL.innerHTML = '';
+	var humCardsUL = document.getElementById('humCardsUL');
+		humCardsUL.innerHTML = '';
+	var dropZone = document.getElementById('dropZone');
+		dropZone.innerHTML = '';
 
 }
 
@@ -93,11 +120,11 @@ var GameOverState = {
 
 		if(humCardsList.length == 1) {
 
-			winner = palyers[0];
+			winner = players[0];
 
 		} else {
 
-			winner = palyers[1];
+			winner = players[1];
 		}
 
 		alert('Game Over, the winner is : ' + winner);
@@ -115,6 +142,10 @@ var GameOverState = {
 function ContextObject(state) {
 
 	this.state = state;
+	this.performState = function(newState) {
+		this.state = newState;
+		sate.updateState();
+	}
 
 }
 
@@ -132,11 +163,6 @@ window.onload = function() {
 
 	dropZone.addEventListener("drop", drop, false);
 
-	var compGetCardsFromStackBtn = document.getElementById('compGetCardsStackBtn');
-
-	compGetCardsFromStackBtn.addEventListener("click", computerGetCardsFromStack, false);
-
-
 	var humanGetCardsFromStackBtn = document.getElementById('humnGetCardsStackBtn');
 
 	humanGetCardsFromStackBtn.addEventListener("click", humanGetCardsFromStack, false);
@@ -146,6 +172,7 @@ window.onload = function() {
 // functions ---------------------------------------------------
 
 function updateComputerPossibleMoves() {
+	console.log('updateComputerPossibleMoves');
 
 	computerActualPossibleMoves = [];
 
@@ -165,7 +192,7 @@ function updateComputerPossibleMoves() {
 
 	} else {
 
-		computerActualPossibleMoves.concat(compCardsList);
+		computerActualPossibleMoves = computerActualPossibleMoves.concat(compCardsList);
 		
 	}
 
@@ -185,6 +212,7 @@ function compPickCardFromPossibleMovesAndReturnId() {
 }
 
 function computerMakeMove() {
+	console.log('computerMakeMove()');
 
 	if(computerActualPossibleMoves.length != 0) {
 			darggedElId = compPickCardFromPossibleMovesAndReturnId();
@@ -200,6 +228,7 @@ function computerMakeMove() {
 		performGameLogic();
 		swapRound();
 		updateComputerPossibleMoves();
+
 	} else {
 
 		computerGetCardsFromStack();
@@ -208,6 +237,7 @@ function computerMakeMove() {
 }
 
 function copyCardsFromCrdsDBtoCardsList() {
+	console.log('copyCardsFromCrdsDBtoCardsList()');
 
 	for(var key in cards) {
 		cardsList.push(cards[key]);
@@ -219,6 +249,8 @@ function copyCardsFromCrdsDBtoCardsList() {
 }
 
 function shuffleCardsList(cardsArr){
+
+	console.log('shuffleCardsList()');
 
 	for(var i = (cardsArr.length-1); i > 0; i--) {
 
@@ -233,20 +265,37 @@ function shuffleCardsList(cardsArr){
 
 function swapRound() {
 
+	console.log('swapRound()');
+
 	var roundDiv = document.getElementById('round');
 
-	if(dropCounter % 2 == 0) {
-		round = palyers[0];
+	if(round == players[1]) {
+		round = players[0];
 
 	} else {
-		round = palyers[1];
+		round = players[1];
 	}
 
 	roundDiv.innerHTML = "round: <br />" + round;
+}
+
+function hideComputerCards() {
+
+	console.log('hideComputerCards()');
+
+	var compCardsImages = document.querySelectorAll('#compCardsUL li img');
+
+	for(var i = 0; i < compCardsImages.length; i++) {
+
+		compCardsImages[i].src = cardBackSrc;
+
+	}
 
 }
 
 function initComputerCards() {
+
+	console.log('initComputerCards()');
 
 	populateComputerCardsList();
 
@@ -272,6 +321,8 @@ function initComputerCards() {
 
 function resetCardsList(cardsList, nodeUl) {
 
+	console.log('resetCardsList()');
+
 	nodeUl.innerHTML = '';
 
 	for(var i = 0; i < cardsList.length; i++) {
@@ -294,6 +345,7 @@ function resetCardsList(cardsList, nodeUl) {
 
 
 function initHumanCards() {
+	console.log('initHumanCards()');
 
 	populateHumanCardsList();
 
@@ -372,7 +424,7 @@ function drop(e){
 	updateComputerPossibleMoves();
 
 
-	if(round = palyers[1] && dropZoneChanged) {
+	if(round == players[1] && dropZoneChanged) {
 
 			setTimeout(function(){
 				computerMakeMove();
@@ -431,6 +483,21 @@ function computerGetCardsFromStack() {
 
 }
 
+function incrementPoints() {
+	console.log('incrementPoints()');
+
+	if(round === players[0]){
+
+		humanPoints++;
+
+	} else {
+
+		computerPoints++;
+
+	}
+
+}
+
 function performGameLogic() {
 
 	var dropZone = document.getElementById('dropZone');
@@ -454,6 +521,8 @@ function performGameLogic() {
 							droppedCardsStack.push(droppedObject);
 
 							var newCardNode = document.getElementById(darggedElId);
+							var newCardObject = cards[darggedElId];
+							newCardNode.src = newCardObject.imgSrc;
 
 							dropZone.appendChild(newCardNode);
 							// larger image
@@ -461,9 +530,12 @@ function performGameLogic() {
 
 							dropCounter++;
 
+							incrementPoints();
+
 							statusMsg = 'drop count: ' + dropCounter + '<br />' 
 									+ droppedObject.name + ' is in drop zone' 
-									+ '<br /> points: ' +points;
+									+ '<br /> computerPoints: ' + computerPoints
+									+ '<br /> humanPoints: ' + humanPoints;
 								
 							gameStatus.innerHTML = statusMsg;
 
@@ -477,6 +549,9 @@ function performGameLogic() {
 							dropZone.innerHTML = '';
 							// move new
 							var newCardNode = document.getElementById(darggedElId);
+							var newCardObject = cards[darggedElId];
+							newCardNode.src = newCardObject.imgSrc;
+
 							dropZone.appendChild(newCardNode);
 							// larger image
 							newCardNode.className = 'cardInDropeZone';
@@ -486,11 +561,14 @@ function performGameLogic() {
 							droppedCardsStack.push(droppedObject);
 
 							dropCounter++;
-							points++;
 
+							incrementPoints();
+							
 							statusMsg = 'drop count: ' + dropCounter + 
 								'<br />' + newDroppedCard.name + 
-								' is in drop zone' + '<br /> points: ' +points;
+								' is in drop zone' 
+								+ '<br /> computerPoints: ' + computerPoints
+								+ '<br /> humanPoints: ' + humanPoints;
 							// update status msg	
 							gameStatus.innerHTML = statusMsg;
 
