@@ -1,4 +1,4 @@
-# js_simple_games
+## js_simple_games
 simple web games written in JavaScript
 
 #cards_game
