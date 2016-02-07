@@ -1,23 +1,23 @@
 # js_simple_games
 simple web games written in JavaScript
 
-* cards_game
+## cards_game
 Something like Black Jack,
 
 + with html5 darg and drop and human vs computer implementation
-* guess_sentence
+## guess_sentence
 Simple guessing game
 
 with html 5 canvas
-* memory game
+## memory game
 grid hidden icons, 
 
 you have to remembare where where similar icons
-* remove spaceman
+## remove spaceman
 game based on timer, witch adds icins in a list.
 
 Randomly on the list occur a spaceman view, on wich you have to click
-* ticTacToe_human_vs_computer
+## ticTacToe_human_vs_computer
 classical tic tac toe game, 
 
 human vs computer implementation
