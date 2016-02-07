@@ -1,7 +1,7 @@
-## js_simple_games
+# js_simple_games
 simple web games written in JavaScript
 
-#cards_game
+###cards_game
 Something like Black Jack,
 wih html5 darg and drop
 human vs computer implementation
