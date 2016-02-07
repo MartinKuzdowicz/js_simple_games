@@ -7,8 +7,8 @@ Something like Black Jack,
 * human vs computer implementation
 
 ## guess_sentence
-Simple guessing game
-* with html 5 canvas
+Simple guessing game with html 5 canvas
+
 ## memory game
 a grid of hidden icons, 
 
