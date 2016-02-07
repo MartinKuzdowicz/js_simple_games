@@ -4,9 +4,7 @@ simple web games written in JavaScript
 * cards_game
 Something like Black Jack,
 
-wih html5 darg and drop, 
-
-human vs computer implementation
++ with html5 darg and drop and human vs computer implementation
 * guess_sentence
 Simple guessing game
 
