@@ -1,2 +1,2 @@
 # js_simple_games
-simple web games in javascript
+simple web games written in JavaScript
