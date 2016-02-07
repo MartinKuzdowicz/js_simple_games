@@ -10,10 +10,12 @@ Something like Black Jack,
 Simple guessing game with html 5 canvas
 
 ## memory game
-a grid of hidden icons, 
+a grid of hidden icons
 
-you click on the hiiden icons and 
+you can click on the hidden icons and 
 you have to remember where were located similar images
+
+when you click on icons wich have the 2 identical images the icons are disappeared and you get points
 ## remove spaceman
 game based on timer, witch adds icons to the list.
 
