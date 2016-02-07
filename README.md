@@ -15,7 +15,7 @@ a grid of hidden icons
 you can click on the hidden icons and 
 you have to remember where were located similar images
 
-when you click on icons wich have the 2 identical images this particular icons disappeared and you get points
+click on the icons that have two identical images , then these icons disappear and the player gets a points
 ## remove spaceman
 The game is based on the timer , which adds another icon to the list.
 
