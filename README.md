@@ -17,8 +17,6 @@ you have to remember where were located similar images
 ## remove spaceman
 game based on timer, witch adds icons to the list.
 
-Randomly on the list occur a spaceman view, on wich you have to click
+Randomly on the list occur a spaceman and you have to click on the spaceman to get points
 ## ticTacToe_human_vs_computer
-classical tic tac toe game, 
-
-human vs computer implementation
+classical tic tac toe game with human vs computer implementation
