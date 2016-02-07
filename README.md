@@ -15,9 +15,9 @@ a grid of hidden icons
 you can click on the hidden icons and 
 you have to remember where were located similar images
 
-when you click on icons wich have the 2 identical images the icons are disappeared and you get points
+when you click on icons wich have the 2 identical images this particular icons disappeared and you get points
 ## remove spaceman
-game based on timer, witch adds icons to the list.
+The game is based on the timer , which adds another icon to the list.
 
 Randomly on the list occur a spaceman and you have to click on the spaceman to get points
 ## ticTacToe_human_vs_computer
